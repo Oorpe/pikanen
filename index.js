@@ -2,98 +2,48 @@
 var fs = require('fs');
 //minimist for basic arg parsing
 var argv = require('minimist')(process.argv.slice(2));
-// console.dir(argv);
+
+//all own helper functions here for testability
+var utils = require("./src/utils.js")
+
 //list known flags and keywords, all others are treated as errors and thrown
 var known = [
     "r","root", //specify server root path
     "p","port", //specify the port to use
-    "_",
+    "_", //unnamed array, paths
     "s","silent" //only generate express server file, don't run it
 ]
 
-var keys = Object.keys(argv);
-
-keys.forEach((key)=>{
-    if(!known.includes(key)){
-        var str = "weird flag detected: -" + key + ", are you sure you put two dashes for '--alias'?";
-        throw(str)
-    }
-})
-
-//default to 3000
-var port = argv.port || argv.p || 3000;
-var root = argv.root || argv.r || "";
-root = leadingSlash(root);
-
-// if(argv.r || argv.root){
-//     root = argv.root || argv.r;
-//     // port = "" + portnum + leadingSlash(argv.root || argv.r);
-// }
-
-var paths = [];
-
-paths = paths.concat(argv._);
-
-var parsedpaths = paths.map(path => {
-    return checkForEquals(path)
-})
-
 var nl = "\n";
 
-// console.log(parsedpaths)
-//unnamed contains the core path arguments
-var staticServes = "";
+//throw on bad arguments
+utils.throwForUnknownKeys(argv, known);
 
-if(parsedpaths.length > 0){
-    for(var path of parsedpaths){
-     staticServes += "app.use('" + leadingSlash(path.alias) + "', express.static('" + path.dir + "'))" + "\n";
+//default port to 3000
+var port = argv.port || argv.p || 3000;
+//allow seting rootpath
+var rootpath = argv.root || argv.r || "";
+if(rootpath != ""){rootpath = utils.leadingSlash(rootpath);}
+var paths = argv._; //grab paths from arguments
+
+var silentOn = false;
+if(argv.s || argv.silent){
+    var s = argv.silent || argv.s;
+    // console.log(s)
+    if(s && s!= true){
+        paths.push(s);
     }
+    silentOn = true;
 }
-// console.log(staticServes)
-// //
-var dirs = parsedpaths.map(x => x.dir);
-var aliases = parsedpaths.map(x => {
-    var some =  nl + "localhost:" + port + root + leadingSlash(x.alias)
-    // console.log(some);
-    return some
+
+//parse the path strings by = sign
+var parsedpaths = paths.map(path => {
+    return utils.checkForEquals(path)
 })
-// console.log(aliases)
-var res = `
-const express = require('express')
-const app = express()
-`+staticServes+`
-app.listen(`+port+", function(){console.log(`dirs ["+ dirs +"] served at " + aliases + "`)})"
 
-fs.writeFile("pikanen-index.js", res, function(){
-    var cp = require('child_process');
-    var n = cp.fork('./pikanen-index.js');
-    // console.log(res);
+fs.writeFile("pikanen-index.js", utils.templateExpress(parsedpaths, port, rootpath), function(){
+    if(!silentOn){
+        var cp = require('child_process');
+        var n = cp.fork('./pikanen-index.js');
+    }
 });
-
-/**
-    check for equals signs, split to dir and alias strings
-*/
-function checkForEquals(str){
-    // console.log("hei")
-    var i = str.indexOf("=");
-    var res;
-    if(i != -1){
-        res = {dir: str.slice(i+1), alias: str.slice(0, i)}
-    }else{
-        //no = sign
-        res = {dir: str, alias: str}
-    }
-    // console.log(res);
-    return res;
-}
-
-/**
-    add leading slashes when necessary
-*/
-function leadingSlash(str){
-    if(str[0] == "/"){
-        return str;
-    }else{
-        return "/"+str;
-    }
-}
