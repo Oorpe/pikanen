@@ -61,8 +61,12 @@ Success! You are now serving the contents of the directory at `localhost:3000/ww
 *   `$ pikanen /=node_modules/something/www` serves directory `/node_modules/something/www` at `localhost:3000/`.
 
 ### Root:
-
+*   should probably be called publicRoot or something, and allow the reverse too
 *   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server.
 
 ### Silent:
     '$ pikanen -s www' only creates the file without starting up a server
+
+## TODO:
+
+*   Parse the settings from package.json if possible, so that these act as overrides. Maybe fork that serve-this thing from GitHub?

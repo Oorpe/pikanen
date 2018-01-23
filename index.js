@@ -6,6 +6,9 @@ var argv = require('minimist')(process.argv.slice(2));
 //all own helper functions here for testability
 var utils = require("./src/utils.js")
 
+var config = utils.grabConfigFromPackageJSON();
+// console.log(config);
+
 //list known flags and keywords, all others are treated as errors and thrown
 var known = [
     "r","root", //specify server root path
@@ -20,19 +23,23 @@ var nl = "\n";
 utils.throwForUnknownKeys(argv, known);
 
 //default port to 3000
-var port = argv.port || argv.p || 3000;
+var port = argv.port || argv.p || config.port || 3000;
 //allow seting rootpath
-var rootpath = argv.root || argv.r || "";
+var rootpath = argv.root || argv.r || config.rootpath || "";
 if(rootpath != ""){rootpath = utils.leadingSlash(rootpath);}
 var paths = argv._; //grab paths from arguments
+if(config.paths){
+    paths = paths.concat(config.paths)
+}
 
 var silentOn = false;
-if(argv.s || argv.silent){
-    var s = argv.silent || argv.s;
+var s = argv.silent || argv.s || config.silent;
+// console.log(typeof(s))
+if(s != "true" && s != "false"){
     // console.log(s)
-    if(s && s!= true){
         paths.push(s);
-    }
+}
+if(s != "false"){
     silentOn = true;
 }
 

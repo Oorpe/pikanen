@@ -1,4 +1,4 @@
-
+var fs = require('fs');
 /**
     check for equals signs, split to dir and alias strings
 */
@@ -71,9 +71,24 @@ function templateExpress(parsedpaths, port, rootpath){
     return res;
 }
 
+/**
+    simply grab config variable from local package.json if available
+*/
+function grabConfigFromPackageJSON(){
+    var pkg;
+    try {
+      let pkgFile = fs.readFileSync('package.json');
+      pkg = JSON.parse(pkgFile);
+    } catch(e) {
+      console.log('No package.json found in current location!');
+    }
+    return pkg["pikanen"] || {};
+}
+
 module.exports = {
     leadingSlash: leadingSlash,
     checkForEquals: checkForEquals,
     throwForUnknownKeys: throwForUnknownKeys,
-    templateExpress: templateExpress
+    templateExpress: templateExpress,
+    grabConfigFromPackageJSON: grabConfigFromPackageJSON
 }
