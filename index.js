@@ -28,22 +28,22 @@ var port = argv.port || argv.p || config.port || 3000;
 var rootpath = argv.root || argv.r || config.root || "";
 if(rootpath != ""){rootpath = utils.leadingSlash(rootpath);}
 var paths = argv._; //grab paths from arguments
-if(config.paths){
+if(config.paths != undefined){
     paths = paths.concat(config.paths)
 }
 
 var silentOn = false;
 var s = argv.silent || argv.s || config.silent;
 // console.log(typeof(s))
-if(s != "true" && s != "false" && s != true && s != false){
-    // console.log(s)
+if(s != "true" && s != "false" && s != true && s != false && s != undefined){
+    console.log(s)
         paths.push(s);
         s = "true"; //set this for the next comparison
 }
 if(s == "true" || s == true){
     silentOn = true;
 }
-
+// console.log(paths)
 //parse the path strings by = sign
 var parsedpaths = paths.map(path => {
     return utils.checkForEquals(path)
