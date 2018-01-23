@@ -2,7 +2,7 @@
 
 (Pikanen is finnish for ~quickie)
 
-This is a very barebones Express server bootstrapper, installable as `npm i -g  pikanen`.
+This is a very barebones Express server bootstrapper.
 
 Similar to many quickstart servers, but with only one dependency and no extra bells or whistles.
 
@@ -11,6 +11,10 @@ Pikanen also generates a readable express index file, named `pikanen-index.js`, 
 * All loose (no leading dashes) keywords are treated as directory paths, relative to current location.
 
 * Unknown dashed keywords raise errors.
+
+## Installation
+
+`pikanen` is a node executable, install globally with `npm install -g pikanen`.
 
 ## Usage
 
