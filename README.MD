@@ -1,6 +1,6 @@
 # Pikanen
 
-(Pikanen is finnish for ~quickie)
+(Pikanen is finnish for ~quickie) 
 
 This is a very barebones Express server bootstrapper, installable as `npm i -g  pikanen`.
 
