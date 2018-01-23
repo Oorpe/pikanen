@@ -1,0 +1,14 @@
+{
+  "name": "quickit",
+  "version": "0.1.0",
+  "description": "a simple Express server, configurable from the command line (quick mocking tool). Generates an index file with express and serves it.",
+  "main": "index.js",
+  "bin": {
+    "quickit": "index.js"
+  },
+  "author": "Roope Tervo",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
+}
