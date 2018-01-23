@@ -6,7 +6,7 @@ var argv = require('minimist')(process.argv.slice(2));
 //all own helper functions here for testability
 var utils = require("./src/utils.js")
 
-var config = utils.grabConfigFromPackageJSON();
+var config = utils.grabConfigFromPackageJSON() || {};
 // console.log(config);
 
 //list known flags and keywords, all others are treated as errors and thrown
