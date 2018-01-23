@@ -53,20 +53,40 @@ Success! You are now serving the contents of the directory at `localhost:3000/ww
 ### Multiple directories:
 *   `$ pikanen www libs` serves both `/www` and `/libs` from current directory under `localhost:3000/www` and `localhost:3000/libs`
 
-### Port:
+### Port: -p/--port
 *   `$ pikanen -p 8001 www` serves `/www` from current directory at `localhost:8001/www`.
 
 ### aliases:
 *   Aliasing allows you to set aliases for directories with unwieldy names or long relative paths, like UI components inside a node_modules directory
 *   `$ pikanen /=node_modules/something/www` serves directory `/node_modules/something/www` at `localhost:3000/`.
 
-### Root:
+### Root: -r/--root
 *   should probably be called publicRoot or something, and allow the reverse too
 *   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server.
 
-### Silent:
-    '$ pikanen -s www' only creates the file without starting up a server
+### Silent: -s/--silent
 
-## TODO:
+'$ pikanen -s www' only creates the file without starting up a server
 
-*   Parse the settings from package.json if possible, so that these act as overrides. Maybe fork that serve-this thing from GitHub?
+## Configuration
+
+The package can also run off a configuration placed in the local `package.json` file.
+
+```javascript
+{
+    "pikanen":{
+        "silent":"false",
+        "paths":["/=www, assets=node_modules/somelib/dist"],
+        "port":3001,
+        "root":"/monkeystuff"
+    }
+}
+```
+When you call `pikanen` in this directory, it will extract the configuration from package.json and use the variables set there.
+
+![](/docs/conffed.png)
+
+Passed command line arguments will override the settings in the `package.json`, except paths, which will concatenate with the ones in the package file:
+
+![](/docs/override-conf.png)
+![](/docs/override-port.png)
