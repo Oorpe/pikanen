@@ -1,6 +1,6 @@
 # Pikanen
 
-(Pikanen is finnish for ~quickie) 
+(Pikanen is finnish for ~quickie)
 
 This is a very barebones Express server bootstrapper, installable as `npm i -g  pikanen`.
 
@@ -8,14 +8,23 @@ Similar to many quickstart servers, but with only one dependency and no extra be
 
 Pikanen also generates a readable express index file, named `pikanen-index.js`, so it doubles as a simple express server generator.
 
-* all loose (no leading dashes) keywords are treated as directory paths, relative to current location.
+* All loose (no leading dashes) keywords are treated as directory paths, relative to current location.
 
-* unknown dashed keywords raise errors.
+* Unknown dashed keywords raise errors.
 
 ## Usage
 
-### basic usage:
+### Basic usage:
 *   `$ pikanen www` serves `/www` from current directory at `localhost:3000/www`.
+
+```
+roope@acerpc:~/Projects/js/oneoffproject$ pikanen root=www libs -p 8002 -r /api
+
+dirs [www,libs] served at
+localhost:8002/api/root,
+localhost:8002/api/libs
+
+```
 
 ### Multiple directories:
 *   `$ pikanen www libs` serves both `/www` and `/libs` from current directory under `localhost:3000/www` and `localhost:3000/libs`
