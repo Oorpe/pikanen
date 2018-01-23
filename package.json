@@ -1,6 +1,6 @@
 {
   "name": "pikanen",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "a simple Express server, configurable from the command line (quick mocking tool). Generates an index file with express and serves it. Nothing you haven't seen before",
   "main": "index.js",
   "bin": {
