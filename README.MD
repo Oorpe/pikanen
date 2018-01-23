@@ -59,10 +59,10 @@ Success! You are now serving the contents of the directory at `localhost:3000/ww
 ### aliases:
 *   Aliasing allows you to set aliases for directories with unwieldy names or long relative paths, like UI components inside a node_modules directory
 *   `$ pikanen /=node_modules/something/www` serves directory `/node_modules/something/www` at `localhost:3000/`.
-
+<!-- 
 ### Root: -r/--root
 *   should probably be called publicRoot or something, and allow the reverse too
-*   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server.
+*   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server. -->
 
 ### Silent: -s/--silent
 

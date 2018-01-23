@@ -1,4 +1,5 @@
 var fs = require('fs');
+var chalk = require('chalk');
 /**
     check for equals signs, split to dir and alias strings
 */
@@ -44,11 +45,11 @@ function throwForUnknownKeys(argv, knownKeys){
 /**
     parse the static serve paths into templated strings
 */
-function parseStaticServes(parsedpaths){
+function parseStaticServes(parsedpaths, rootpath){
     var staticServes = ""; //staticServes will contain the templated app.use... lines
     if(parsedpaths.length > 0){
         for(var path of parsedpaths){
-         staticServes += "app.use('" + leadingSlash(path.alias) + "', express.static('" + path.dir + "'))" + "\n";
+         staticServes += "app.use('" + rootpath + leadingSlash(path.alias) + "', express.static('" + path.dir + "'))" + "\n";
         }
     }
     return staticServes;
@@ -59,7 +60,7 @@ function parseStaticServes(parsedpaths){
 */
 function templateExpress(parsedpaths, port, rootpath){
 
-    var staticServes = parseStaticServes(parsedpaths);
+    var staticServes = parseStaticServes(parsedpaths, rootpath);
     var dirs = parsedpaths.map(x => x.dir);
     var aliases = parsedpaths.map(x => { return  "\n" + "localhost:" + port + rootpath + leadingSlash(x.alias) })
 
@@ -68,6 +69,26 @@ function templateExpress(parsedpaths, port, rootpath){
     const app = express()
     `+staticServes+`
     app.listen(`+port+", function(){console.log(`dirs ["+ dirs +"] served at " + aliases + "`)})"
+    return res;
+}
+
+function updatedTemplateExpress(parsedpaths, port, rootpath){
+
+    var staticServes = parseStaticServes(parsedpaths, rootpath);
+
+    // var dirs = parsedpaths.map(x => x.dir);
+    // var aliases = parsedpaths.map(x => { return  "\n" + "localhost:" + port + rootpath + leadingSlash(x.alias) })
+    var lines = parsedpaths.map(x => { return "\n" + chalk.magentaBright.dim(x.dir)
+    + " => "
+    + chalk.cyanBright.dim.underline("http://localhost:" + port + rootpath + leadingSlash(x.alias)) + " "})
+
+    var res = `
+    const express = require('express')
+    const app = express()
+    `+staticServes+`
+    app.listen(`+port+", function(){console.log(`"
+    + lines +
+    "`)})"
     return res;
 }
 
@@ -89,6 +110,6 @@ module.exports = {
     leadingSlash: leadingSlash,
     checkForEquals: checkForEquals,
     throwForUnknownKeys: throwForUnknownKeys,
-    templateExpress: templateExpress,
+    templateExpress: updatedTemplateExpress,
     grabConfigFromPackageJSON: grabConfigFromPackageJSON
 }
