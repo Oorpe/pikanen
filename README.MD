@@ -20,7 +20,7 @@ Pikanen also generates a readable express index file, named `pikanen-index.js`, 
 
 So, you have a new idea for a web feature that requires a server. Maybe a javascript framework is needed, so you have to serve the static app fragments/templates/whatever, and they all reside inside a www folder.
 
-![](/docs/one-off-js.png)
+![](/docs_1.0.0/one-off-js.png)
 
 
 
@@ -29,13 +29,13 @@ Pikanen is a simple tool for not having to look up an express tutorial for the b
 In the above situation, invoking `pikanen www` will create a basic node express server file for the specified directory
 
 
-![](/docs/express-required.png)
+![](/docs_1.0.0/express-required.png)
 
 Oh no!
 You will still need to install express in your project folder via `npm i express`, after which, invoking pikanen will yield the called for result:
 
-![](/docs/serving-www.png)
-![](/docs/success-angular.png)
+![](/docs_1.0.0/serving-www.png)
+![](/docs_1.0.0/success-angular.png)
 
 Success! You are now serving the contents of the directory at `localhost:3000/www`, as well as having created a file `pikanen-index.js` in the folder where you invoked the command, which can be used as a basis for more complex routing logic without having to look up the same Express tutorial boilerplate for the 100th time.
 
@@ -59,7 +59,7 @@ Success! You are now serving the contents of the directory at `localhost:3000/ww
 ### aliases:
 *   Aliasing allows you to set aliases for directories with unwieldy names or long relative paths, like UI components inside a node_modules directory
 *   `$ pikanen /=node_modules/something/www` serves directory `/node_modules/something/www` at `localhost:3000/`.
-<!-- 
+<!--
 ### Root: -r/--root
 *   should probably be called publicRoot or something, and allow the reverse too
 *   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server. -->
