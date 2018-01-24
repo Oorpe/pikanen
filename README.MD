@@ -4,9 +4,9 @@
 
 This is a very barebones Express server bootstrapper.
 
-Similar to many quickstart servers, but with only one dependency and no extra bells or whistles.
+Similar to many quickstart servers, but with only a few dependencies and no extra bells or whistles.
 
-Pikanen also generates a readable express index file, named `pikanen-index.js`, so it doubles as a simple express server generator.
+Pikanen also generates a readable simple express index file, named `pikanen-index.js`, so it doubles as a simple express server generator.
 
 * All loose (no leading dashes) keywords are treated as directory paths, relative to current location.
 
