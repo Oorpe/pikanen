@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var fs = require('fs');
+var chalk = require("chalk");
 //minimist for basic arg parsing
 var argv = require('minimist')(process.argv.slice(2));
 // console.log(argv)
@@ -33,7 +34,8 @@ var config = utils.resolveCmdArgs(argv, config);
 // console.log("resolved config:\n",config)
 
 fs.writeFile("pikanen-index.js", utils.templateExpress(config.paths, config.port, config.root), function(){
-    if(utils.isFalsy(config.silent)){
+    console.log(chalk.magentaBright.dim("express server file generated") + " => " + chalk.cyanBright.dim("pikanen-index.js"))
+    if(utils.isFalsy(config.silent) && config.paths.length > 0){
         var cp = require('child_process');
         var n = cp.fork('./pikanen-index.js');
     }

@@ -59,20 +59,20 @@ function parseStaticServes(parsedpaths, rootpath){
 /**
     templated express file generation
 */
-function templateExpress(parsedpaths, port, rootpath){
-
-    var staticServes = parseStaticServes(parsedpaths, rootpath);
-    var dirs = parsedpaths.map(x => x.dir);
-    var aliases = parsedpaths.map(x => { return  "\n" + "localhost:" + port + rootpath + leadingSlash(x.alias) })
-
-    var res = `
-    const express = require('express');
-    var chalk = require('chalk');
-    const app = express();
-    `+staticServes+`
-    app.listen(`+port+", function(){console.log(`dirs ["+ dirs +"] served at " + aliases + "`)});"
-    return res;
-}
+// function templateExpress(parsedpaths, port, rootpath){
+//
+//     var staticServes = parseStaticServes(parsedpaths, rootpath);
+//     var dirs = parsedpaths.map(x => x.dir);
+//     var aliases = parsedpaths.map(x => { return  "\n" + "localhost:" + port + rootpath + leadingSlash(x.alias) })
+//
+//     var res = `
+//     const express = require('express');
+//     var chalk = require('chalk');
+//     const app = express();
+//     `+staticServes+`
+//     app.listen(`+port+", function(){console.log(`dirs ["+ dirs +"] served at " + aliases + "`)});"
+//     return res;
+// }
 
 function updatedTemplateExpress(parsedpaths, port, rootpath){
 
@@ -80,16 +80,14 @@ function updatedTemplateExpress(parsedpaths, port, rootpath){
 
     // var dirs = parsedpaths.map(x => x.dir);
     // var aliases = parsedpaths.map(x => { return  "\n" + "localhost:" + port + rootpath + leadingSlash(x.alias) })
-    var lines = parsedpaths.map(x => { return "\n" + chalk.magentaBright.dim(x.dir)
+    var lines = parsedpaths.map(x => { return chalk.magentaBright.dim(x.dir)
     + " => "
-    + chalk.cyanBright.dim.underline("http://localhost:" + port + rootpath + leadingSlash(x.alias)) + " "})
+    + chalk.cyanBright.dim.underline("http://localhost:" + port + rootpath + leadingSlash(x.alias)) + "\n"})
 
     var res = `const express = require('express')
     const app = express()
     `+staticServes+`
-    app.listen(`+port+", function(){console.log(`"
-    + lines +
-    "`)})"
+    app.listen(`+port+", function(){console.log(`serving static assets: \n"+ lines +"`)})"
     return res;
 }
 
@@ -104,7 +102,7 @@ function grabConfigFromPackageJSON(param){
       let pkgFile = fs.readFileSync('package.json');
       pkg = JSON.parse(pkgFile);
     } catch(e) {
-      console.log(chalk.yellow.dim.inverse("no package.json pikanen entry") + " => " + chalk.cyanBright.dim("using default config: "));
+      // console.log(chalk.yellow.dim.inverse("no package.json pikanen entry") + " => " + chalk.cyanBright.dim("using default config: "));
     }
     if(pkg && pkg.pikanen){
         res = pkg.pikanen;

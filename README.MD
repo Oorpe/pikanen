@@ -34,39 +34,51 @@ In the above situation, invoking `pikanen www` will create a basic node express 
 Oh no!
 You will still need to install express in your project folder via `npm i express`, after which, invoking pikanen will yield the called for result:
 
-![](/docs_1.0.0/serving-www.png)
+![](/docs_1.0.0/serving-dir.png)
 ![](/docs_1.0.0/success-angular.png)
 
 Success! You are now serving the contents of the directory at `localhost:3000/www`, as well as having created a file `pikanen-index.js` in the folder where you invoked the command, which can be used as a basis for more complex routing logic without having to look up the same Express tutorial boilerplate for the 100th time.
 
-![](/docs/pikanen-index.png)
+![](/docs_1.0.0/pikanen-index.png)
 
 
 
-## Other options:
+## Parameter options:
 
 ### Basic usage:
 
 `$ pikanen www` serves `/www` from current directory at `localhost:3000/www`
 
+![](/docs_1.0.0/serving-dir.png)
+
 
 ### Multiple directories:
 *   `$ pikanen www libs` serves both `/www` and `/libs` from current directory under `localhost:3000/www` and `localhost:3000/libs`
 
+![](/docs_1.0.0/serving-multiple.png)
+
 ### Port: -p/--port
 *   `$ pikanen -p 8001 www` serves `/www` from current directory at `localhost:8001/www`.
+
+![](/docs_1.0.0/serving-port.png)
 
 ### aliases:
 *   Aliasing allows you to set aliases for directories with unwieldy names or long relative paths, like UI components inside a node_modules directory
 *   `$ pikanen /=node_modules/something/www` serves directory `/node_modules/something/www` at `localhost:3000/`.
-<!--
+
+![](/docs_1.0.0/serving-aliased.png)
+
 ### Root: -r/--root
 *   should probably be called publicRoot or something, and allow the reverse too
-*   `$ pikanen -r/--root api/v1 libs=src` serves directory `/src` at `localhost:3000/api/v1/libs`. The root option changes the root of the whole server. -->
+*   `$ pikanen -r api/v1 www` serves directory `/www` at `localhost:3000/api/v1/www`. The root option changes the root of the whole server.
+
+![](/docs_1.0.0/serving-root.png)
 
 ### Silent: -s/--silent
 
-'$ pikanen -s www' only creates the file without starting up a server
+`$ pikanen -s www` only creates the file without starting up the resulting servers
+
+![](/docs_1.0.0/serving-silent.png)
 
 ## Configuration
 
@@ -76,17 +88,16 @@ The package can also run off a configuration placed in the local `package.json` 
 {
     "pikanen":{
         "silent":"false",
-        "paths":["/=www, assets=node_modules/somelib/dist"],
+        "paths":["/=www", "assets=node_modules/somelib/dist"],
         "port":3001,
-        "root":"/monkeystuff"
+        "root":"/api"
     }
 }
 ```
 When you call `pikanen` in this directory, it will extract the configuration from package.json and use the variables set there.
 
-![](/docs/conffed.png)
+![](/docs_1.0.0/conffed.png)
 
 Passed command line arguments will override the settings in the `package.json`, except paths, which will concatenate with the ones in the package file:
 
-![](/docs/override-conf.png)
-![](/docs/override-port.png)
+![](/docs_1.0.0/override-conf.png)
